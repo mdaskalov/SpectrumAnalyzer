@@ -1,6 +1,8 @@
 #include <SPI.h>
 #include <TFT_eSPI.h>
-#include <Arduino.h>
+#include <SpectrumAnalyzer.h>
+
+#include "esp_pm.h"
 
 #define	MAXWAVE     220
 #define	MAXSPEC     47
@@ -15,6 +17,7 @@ TFT_eSPI tft = TFT_eSPI(135, 240); // Invoke custom library
 int w,h;
 int wavX,wavY,wavH,spX,spY,spW,spH;
 SpectrumAnalyzer *spec;
+double divisor = 0;
 
 void setup() {
   Serial.begin(115200);
