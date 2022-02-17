@@ -1,0 +1,23 @@
+{
+  "name": "SpectrumAnalyzer",
+  "version": "0.1.0",
+  "description": "Realtime Spectrum Analyzer",
+  "keywords": "fft realtime",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/mdaskalov/SpectrumAnalyzer.git"
+  },
+  "authors":
+  [
+    {
+      "name": "Milko Daskalov",
+      "email": "mdaskalov@outlook.com",
+      "maintainer": true
+    }
+  ],
+  "license": "MIT",
+  "framework": "arduino",
+  "platforms": "espressif32",
+  "headers": "SpectrumAnalyzer.h"
+}
