@@ -1,6 +1,6 @@
 #include <SPI.h>
 #include <TFT_eSPI.h>
-#include <SpectrumAnalyzer.h>
+#include <SpectrumAnalyzer.hpp>
 
 #include "esp_pm.h"
 
@@ -16,7 +16,7 @@ TFT_eSPI tft = TFT_eSPI(135, 240); // Invoke custom library
 
 int w,h;
 int wavX,wavY,wavH,spX,spY,spW,spH;
-SpectrumAnalyzer *spec;
+SpectrumAnalyzer<TFT_eSPI> *spec;
 double divisor = 0;
 
 void setup() {
@@ -51,7 +51,7 @@ void setup() {
 
   tft.fillRect(0,0,w,h,TFT_BLACK);
 
-  spec = new SpectrumAnalyzer(tft,MAXWAVE,MAXSPEC);
+  spec = new SpectrumAnalyzer<TFT_eSPI>(tft,MAXWAVE,MAXSPEC);
   spec->waveView(wavX,wavY,wavH,TFT_WHITE,TFT_RED,TFT_BLACK);
   spec->specView(spX+2,spY+2,spW-4,spH-4,TFT_YELLOW,TFT_BLACK);
 
