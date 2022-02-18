@@ -1,7 +1,7 @@
 {
   "name": "SpectrumAnalyzer",
-  "version": "0.1.0",
-  "description": "Realtime Spectrum Analyzer",
+  "version": "0.2.0",
+  "description": "Arduino ESP32 Realtime Spectrum Analyzer",
   "keywords": "fft realtime",
   "repository":
   {
