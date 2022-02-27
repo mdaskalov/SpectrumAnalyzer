@@ -6,10 +6,9 @@
 #define GAIN   1500
 
 template<class Graphics>
-class SpectrumAnalyzer
-{
+class SpectrumAnalyzer {
 private:
-  Graphics &tft;
+  Graphics &g;
 
   int8_t   *buffer;
   int       bufferReadOfs;
@@ -57,8 +56,8 @@ private:
   {
     if (y == yo)
       return;
-    tft.drawPixel(x,yo,yo==waveYmid ? waveMid : waveBg);
-    tft.drawPixel(x,y,waveFg);
+    g.drawPixel(x,yo,yo==waveYmid ? waveMid : waveBg);
+    g.drawPixel(x,y,waveFg);
     yo = y;
   }
 
@@ -68,9 +67,9 @@ private:
       return;
     int32_t len = abs(y-yo);
     if (y <= yo)
-      tft.fillRect(x,y,specBarWidth,len+1,specFg);
+      g.fillRect(x,y,specBarWidth,len+1,specFg);
     else
-      tft.fillRect(x,yo,specBarWidth,len,specBg);
+      g.fillRect(x,yo,specBarWidth,len,specBg);
     yo = y;
   }
 
@@ -110,7 +109,7 @@ private:
   }
 
 public:
-  SpectrumAnalyzer(Graphics &t, int samples, int bars) : tft(t)
+  SpectrumAnalyzer(Graphics &graphics, int samples, int bars) : g(graphics)
   {
     buffer = (int8_t *)malloc((BUFLEN+1)*sizeof(int8_t));
     bufferReadOfs = bufferWriteOfs = bufferSamples = 0;
@@ -144,8 +143,7 @@ public:
       Serial.println("Initialization error.");
   }
 
-  void waveView(int x, int y, int h, uint32_t fg, uint32_t mid, uint32_t bg)
-  {
+  void waveView(int x, int y, int h, uint32_t fg, uint32_t mid, uint32_t bg) {
     waveX = x;
     waveBg = bg;
     waveFg = fg;
@@ -163,8 +161,7 @@ public:
     waveViewInitialized = true;
   }
 
-  void specView(int x, int y, int w, int h, uint32_t fg, uint32_t bg)
-  {
+  void specView(int x, int y, int w, int h, uint32_t fg, uint32_t bg) {
     specBg = bg;
     specFg = fg;
 
@@ -184,8 +181,7 @@ public:
     specViewInitialized = true;
   }
 
-  void clearWaveView()
-  {
+  void clearWaveView() {
     if (!waveViewInitialized)
       return;
 
@@ -194,29 +190,27 @@ public:
     int32_t w = waveSamples;
     int32_t h = waveYmap[(uint8_t)INT8_MIN]-waveYmap[(uint8_t)INT8_MAX]+2;
 
-    tft.fillRect(x,y,w,h,waveBg);
+    g.fillRect(x,y,w,h,waveBg);
     for (int i = 0; i < waveSamples; i++)
-      tft.drawPixel(x+i,waveYmid,waveMid);
+      g.drawPixel(x+i,waveYmid,waveMid);
   }
 
-  void clearSpecView()
-  {
+  void clearSpecView() {
     if (!specViewInitialized)
       return;
     int32_t x = specX;
     int32_t y = specYmap[specYmapSize-1];
     int32_t w = specBars*(specBarWidth+1);
     int32_t h = specYmap[0]-y+1;
-    tft.fillRect(x,y,w,h,specBg);
+    g.fillRect(x,y,w,h,specBg);
     int barx = specX;
     for (int i = 0; i < specBars; i++) {
-      tft.fillRect(barx,specYmap[0],specBarWidth,1,specFg);
+      g.fillRect(barx,specYmap[0],specBarWidth,1,specFg);
       barx += specBarWidth + 1;
     }
   }
 
-  void addSample(const int8_t sample)
-  {
+  void addSample(const int8_t sample) {
     if (!buffer)
       return;
     if (bufferSamples <= BUFLEN) {
@@ -229,8 +223,7 @@ public:
     }
   }
 
-  void generateWave(double divisor)
-  {
+  void generateWave(double divisor) {
     double step = waveSamples / 2.0 * PI / divisor;
     for (int i = 0; i < waveSamples; i++) {
       int8_t sample = INT8_MAX * sin(i / step);
