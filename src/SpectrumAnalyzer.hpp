@@ -186,9 +186,9 @@ public:
       return;
 
     int32_t x = waveX;
-    int32_t y = waveYmap[(uint8_t)INT8_MAX]-1;
+    int32_t y = waveYmap[(uint8_t)INT8_MAX];
     int32_t w = waveSamples;
-    int32_t h = waveYmap[(uint8_t)INT8_MIN]-waveYmap[(uint8_t)INT8_MAX]+2;
+    int32_t h = waveYmap[(uint8_t)INT8_MIN]-waveYmap[(uint8_t)INT8_MAX]+1;
 
     g.fillRect(x,y,w,h,waveBg);
     for (int i = 0; i < waveSamples; i++)
