@@ -208,7 +208,9 @@ template <class Graphics> class SpectrumAnalyzer {
       g.fillRect(x, y, w, h, specBg);
       int barx = specX;
       for (int i = 0; i < specBars; i++) {
-        g.fillRect(barx, specYmap[0], specBarWidth, 1, specFg);
+        uint16_t bary = specYmap[0];
+        specValues[i] = bary;
+        g.fillRect(barx, bary, specBarWidth, 1, specFg);
         barx += specBarWidth + 1;
       }
     }
